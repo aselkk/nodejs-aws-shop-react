@@ -44,32 +44,32 @@ const cloudfront = new cf.Distribution(stack, 'WebAppDistribution', {
   ]
 })
 
-const cloudFrontAwsResource = new AwsCustomResource(
-  stack,
-  `CloudFrontInvalidation-${Date.now()}`,
-  {
-    onCreate: {
-      physicalResourceId: PhysicalResourceId.of(`${'WebAppDistribution'}-${Date.now()}`),
-      service: "CloudFront",
-      action: "createInvalidation",
-      parameters: {
-        DistributionId: 'WebAppDistribution',
-        InvalidationBatch: {
-          CallerReference: Date.now().toString(),
-          Paths: {
-            Quantity: 1,
-            Items: ['/*']
-          }
-        }
-      },
-    },
-    policy: AwsCustomResourcePolicy.fromSdkCalls({
-      resources: AwsCustomResourcePolicy.ANY_RESOURCE
-    }),
-  }
-);
+// const cloudFrontAwsResource = new AwsCustomResource(
+//   stack,
+//   `CloudFrontInvalidation-${Date.now()}`,
+//   {
+//     onCreate: {
+//       physicalResourceId: PhysicalResourceId.of(`${'WebAppDistribution'}-${Date.now()}`),
+//       service: "CloudFront",
+//       action: "createInvalidation",
+//       parameters: {
+//         DistributionId: 'WebAppDistribution',
+//         InvalidationBatch: {
+//           CallerReference: Date.now().toString(),
+//           Paths: {
+//             Quantity: 1,
+//             Items: ['/*']
+//           }
+//         }
+//       },
+//     },
+//     policy: AwsCustomResourcePolicy.fromSdkCalls({
+//       resources: AwsCustomResourcePolicy.ANY_RESOURCE
+//     }),
+//   }
+// );
 
-cloudFrontAwsResource.node.addDependency(cloudfront);
+// cloudFrontAwsResource.node.addDependency(cloudfront);
 
 new deployment.BucketDeployment(stack, 'DeployWebApp', {
   destinationBucket: bucket,
