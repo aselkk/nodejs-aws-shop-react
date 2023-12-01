@@ -33,7 +33,7 @@ export default function Products() {
                 {product.title}
               </Typography>
               {/* @ts-ignore */}
-              <Typography>{formatAsPrice(product.id)}it works</Typography>
+              <Typography>{formatAsPrice(product.price)}</Typography>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product} />
